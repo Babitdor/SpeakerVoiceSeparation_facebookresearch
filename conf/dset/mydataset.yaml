@@ -2,5 +2,5 @@
 train: egs/mydataset/tr
 valid: egs/mydataset/cv
 test: egs/mydataset/tt
-mix_json: egs/mydataset/tr/mix.json
+mix_json: egs/mydataset/tt/mix.json
 mix_dir:

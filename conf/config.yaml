@@ -1,10 +1,12 @@
 defaults:
+  - _self_
   - dset: debug
-  - hydra/job_logging: colorlog
-  - hydra/hydra_logging: colorlog
-
 # Dataset related
 sample_rate: 8000
+use_train_subset: false
+train_subset_size: 500 # default
+use_val_subset: False
+val_subset_size: 500
 segment: 4
 stride: 1 # in seconds, how much to stride between training examples
 pad: true # if training sample is too short, pad it
@@ -25,9 +27,9 @@ continue_from:
   # this arg is ignored for the naming of the exp!
 continue_best: false
 restart: False # Ignore existing checkpoints
-checkpoint_file: checkpoint.th
-history_file: history.json
-samples_dir: samples
+checkpoint_file: ${hydra:run.dir}/checkpoint.th
+history_file: ${hydra:run.dir}/history.json
+samples_dir: ${hydra:run.dir}/samples
 
 # Other stuff
 seed: 2036
@@ -45,7 +47,7 @@ beta2: 0.999
 stft_loss: False
 stft_sc_factor: .5
 stft_mag_factor: .5
-epochs: 1
+epochs: 10
 batch_size: 1
 max_norm: 5
 # learning rate scheduling
@@ -113,18 +115,26 @@ hydra:
             "world_size",
           ]
   job_logging:
+    formatters:
+      colorlog:
+        class: colorlog.ColoredFormatter
+        format: "%(log_color)s[%(asctime)s][%(name)s][%(levelname)s] - %(message)s"
     handlers:
       file:
         class: logging.FileHandler
         mode: w
         formatter: colorlog
-        filename: trainer.log
+        filename: logs/trainer_${hydra.job.override_dirname}.log
       console:
         class: logging.StreamHandler
         formatter: colorlog
         stream: ext://sys.stderr
 
   hydra_logging:
+    formatters:
+      colorlog:
+        class: colorlog.ColoredFormatter
+        format: "%(log_color)s[%(asctime)s][%(name)s][%(levelname)s] - %(message)s"
     handlers:
       console:
         class: logging.StreamHandler
