@@ -189,8 +189,10 @@ If you use this codebase in your research, please cite the original SVoice paper
 
 ## License
 
-This project is for research and educational purposes.  
-See `LICENSE` file for details.
+This repository is released under the CC-BY-NC-SA 4.0. license as found in the [LICENSE](LICENSE) file.
+
+The file: `svoice/models/sisnr_loss.py` and `svoice/data/preprocess.py` were adapted from the [kaituoxu/Conv-TasNet][convtas] repository. It is an unofficial implementation of the [Conv-TasNet: Surpassing Ideal Time-Frequency Magnitude Masking for Speech Separation][convtas-paper] paper, released under the MIT License.
+Additionally, several input manipulation functions were borrowed and modified from the [yluo42/TAC][tac] repository, released under the CC BY-NC-SA 3.0 License.
 
 ---
 
