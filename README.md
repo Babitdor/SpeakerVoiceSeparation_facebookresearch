@@ -175,8 +175,16 @@ See comments in `config.yaml` for details.
 
 ## Citation
 
-If you use this codebase in your research, please cite the original SVoice paper (if available) and any relevant upstream projects (e.g., Conv-TasNet, Demucs, Hydra).
+If you use this codebase in your research, please cite the original SVoice paper and any relevant upstream projects (e.g., Conv-TasNet, Demucs, Hydra).
 
+```bibtex
+@inproceedings{nachmani2020voice,
+  title={Voice Separation with an Unknown Number of Multiple Speakers},
+  author={Nachmani, Eliya and Adi, Yossi and Wolf, Lior},
+  booktitle={Proceedings of the 37th international conference on Machine learning},
+  year={2020}
+}
+```
 ---
 
 ## License
