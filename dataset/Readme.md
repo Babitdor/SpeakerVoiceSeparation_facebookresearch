@@ -1,4 +1,4 @@
-*Prepare Data**
+**Prepare Data**
 
 - **Convert WSJ0 .wv1/.wv2 to .wav:**
   ```bash
