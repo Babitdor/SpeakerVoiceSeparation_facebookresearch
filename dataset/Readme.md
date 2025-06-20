@@ -25,12 +25,21 @@ dataset/
                 ├── s1/
                 └── s2/
 ```
+- **mix/** contains the mixed audio files.
+- **s1/** and **s2/** contain the clean source files for each speaker.
+- This structure is compatible with WSJ0-2mix and similar datasets.
+
+---
+
+# Bash scripts
+- To essentially work and convert .wv1,.wv2 file formats of Wsj0-original Dataset to .wav format (which is the required format)
+- Generate the mix, s1, s2, basically prepping the data in the above structure.
 
 - **Convert WSJ0 .wv1/.wv2 to .wav:**
   ```bash
   bash dataset/wv1_to_wav.sh
   ```
-- **Generate mixtures:**
+- **Generate mixtures and individual speakers**
   ```bash
   bash dataset/prep_mix_spk.sh
   # or
