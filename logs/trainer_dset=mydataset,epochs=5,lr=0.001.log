@@ -1,0 +1,116 @@
+[32m[2025-06-20 10:50:26,032][__main__][INFO] - For logs, checkpoints and samples check D:\Personal Projects\Speech\SVoice\svoice[0m
+[32m[2025-06-20 10:50:33,396][__main__][INFO] - Running on host Babitdor[0m
+[32m[2025-06-20 10:50:35,945][svoice.solver][INFO] - ----------------------------------------------------------------------[0m
+[32m[2025-06-20 10:50:35,945][svoice.solver][INFO] - Training...[0m
+[32m[2025-06-20 10:57:35,634][svoice.solver][INFO] - Train | Epoch 1 | 584/2921 | 1.4 it/sec | Loss 3.19375[0m
+[32m[2025-06-20 11:03:52,658][svoice.solver][INFO] - Train | Epoch 1 | 1168/2921 | 1.5 it/sec | Loss 3.10779[0m
+[32m[2025-06-20 11:10:46,552][svoice.solver][INFO] - Train | Epoch 1 | 1752/2921 | 1.5 it/sec | Loss 2.92432[0m
+[32m[2025-06-20 11:18:00,472][svoice.solver][INFO] - Train | Epoch 1 | 2336/2921 | 1.4 it/sec | Loss 2.82662[0m
+[32m[2025-06-20 11:24:16,985][svoice.solver][INFO] - Train | Epoch 1 | 2920/2921 | 1.4 it/sec | Loss 2.78696[0m
+[32m[2025-06-20 11:24:18,059][svoice.solver][INFO] - [1mTrain Summary | End of Epoch 1 | Time 2022.11s | Train Loss 2.78460[0m
+[32m[2025-06-20 11:24:18,059][svoice.solver][INFO] - ----------------------------------------------------------------------[0m
+[32m[2025-06-20 11:24:18,060][svoice.solver][INFO] - Cross validation...[0m
+[32m[2025-06-20 11:25:12,856][svoice.solver][INFO] - Valid | Epoch 1 | 200/1004 | 4.1 it/sec | Loss 6.41957[0m
+[32m[2025-06-20 11:26:00,198][svoice.solver][INFO] - Valid | Epoch 1 | 400/1004 | 4.1 it/sec | Loss 3.15596[0m
+[32m[2025-06-20 11:26:46,927][svoice.solver][INFO] - Valid | Epoch 1 | 600/1004 | 4.2 it/sec | Loss 1.78489[0m
+[32m[2025-06-20 11:27:33,679][svoice.solver][INFO] - Valid | Epoch 1 | 800/1004 | 4.2 it/sec | Loss 0.60829[0m
+[32m[2025-06-20 11:28:20,480][svoice.solver][INFO] - Valid | Epoch 1 | 1000/1004 | 4.2 it/sec | Loss -0.03892[0m
+[32m[2025-06-20 11:28:21,798][svoice.solver][INFO] - [1mValid Summary | End of Epoch 1 | Time 2265.85s | Valid Loss -0.04068[0m
+[32m[2025-06-20 11:28:21,800][svoice.solver][INFO] - Learning rate adjusted: 0.00100[0m
+[32m[2025-06-20 11:28:21,801][svoice.solver][INFO] - [1mNew best valid loss -0.0407[0m
+[32m[2025-06-20 11:28:21,839][svoice.solver][INFO] - ----------------------------------------------------------------------[0m
+[32m[2025-06-20 11:28:21,839][svoice.solver][INFO] - [1mOverall Summary | Epoch 1 | Train 2.78460 | Valid -0.04068 | Best -0.04068[0m
+[32m[2025-06-20 11:28:22,042][svoice.solver][INFO] - ----------------------------------------------------------------------[0m
+[32m[2025-06-20 11:28:22,042][svoice.solver][INFO] - Training...[0m
+[32m[2025-06-20 11:34:13,686][svoice.solver][INFO] - Train | Epoch 2 | 584/2921 | 1.7 it/sec | Loss 0.89379[0m
+[32m[2025-06-20 11:40:31,197][svoice.solver][INFO] - Train | Epoch 2 | 1168/2921 | 1.6 it/sec | Loss 1.69661[0m
+[32m[2025-06-20 11:47:07,190][svoice.solver][INFO] - Train | Epoch 2 | 1752/2921 | 1.6 it/sec | Loss 1.61638[0m
+[32m[2025-06-20 11:53:30,858][svoice.solver][INFO] - Train | Epoch 2 | 2336/2921 | 1.6 it/sec | Loss 1.38810[0m
+[32m[2025-06-20 11:59:50,164][svoice.solver][INFO] - Train | Epoch 2 | 2920/2921 | 1.6 it/sec | Loss 1.35085[0m
+[32m[2025-06-20 11:59:51,325][svoice.solver][INFO] - [1mTrain Summary | End of Epoch 2 | Time 1889.28s | Train Loss 1.35037[0m
+[32m[2025-06-20 11:59:51,325][svoice.solver][INFO] - ----------------------------------------------------------------------[0m
+[32m[2025-06-20 11:59:51,326][svoice.solver][INFO] - Cross validation...[0m
+[32m[2025-06-20 12:00:48,346][svoice.solver][INFO] - Valid | Epoch 2 | 200/1004 | 4.0 it/sec | Loss 5.00906[0m
+[32m[2025-06-20 12:01:38,220][svoice.solver][INFO] - Valid | Epoch 2 | 400/1004 | 4.0 it/sec | Loss 1.50485[0m
+[32m[2025-06-20 12:02:29,185][svoice.solver][INFO] - Valid | Epoch 2 | 600/1004 | 4.0 it/sec | Loss 0.11770[0m
+[32m[2025-06-20 12:03:19,032][svoice.solver][INFO] - Valid | Epoch 2 | 800/1004 | 4.0 it/sec | Loss -1.08683[0m
+[32m[2025-06-20 12:04:09,412][svoice.solver][INFO] - Valid | Epoch 2 | 1000/1004 | 4.0 it/sec | Loss -1.67588[0m
+[32m[2025-06-20 12:04:10,933][svoice.solver][INFO] - [1mValid Summary | End of Epoch 2 | Time 2148.89s | Valid Loss -1.68291[0m
+[32m[2025-06-20 12:04:10,934][svoice.solver][INFO] - Learning rate adjusted: 0.00098[0m
+[32m[2025-06-20 12:04:10,934][svoice.solver][INFO] - [1mNew best valid loss -1.6829[0m
+[32m[2025-06-20 12:04:10,979][svoice.solver][INFO] - ----------------------------------------------------------------------[0m
+[32m[2025-06-20 12:04:10,980][svoice.solver][INFO] - [1mOverall Summary | Epoch 2 | Train 1.35037 | Valid -1.68291 | Best -1.68291[0m
+[32m[2025-06-20 12:04:11,223][svoice.solver][INFO] - ----------------------------------------------------------------------[0m
+[32m[2025-06-20 12:04:11,224][svoice.solver][INFO] - Training...[0m
+[32m[2025-06-20 12:11:09,206][svoice.solver][INFO] - Train | Epoch 3 | 584/2921 | 1.4 it/sec | Loss 0.60518[0m
+[32m[2025-06-20 12:18:50,688][svoice.solver][INFO] - Train | Epoch 3 | 1168/2921 | 1.3 it/sec | Loss 0.78029[0m
+[32m[2025-06-20 12:26:02,453][svoice.solver][INFO] - Train | Epoch 3 | 1752/2921 | 1.3 it/sec | Loss 0.58384[0m
+[32m[2025-06-20 12:33:32,528][svoice.solver][INFO] - Train | Epoch 3 | 2336/2921 | 1.3 it/sec | Loss 0.61389[0m
+[32m[2025-06-20 12:41:12,280][svoice.solver][INFO] - Train | Epoch 3 | 2920/2921 | 1.3 it/sec | Loss 0.52133[0m
+[32m[2025-06-20 12:41:14,128][svoice.solver][INFO] - [1mTrain Summary | End of Epoch 3 | Time 2222.91s | Train Loss 0.52053[0m
+[32m[2025-06-20 12:41:14,129][svoice.solver][INFO] - ----------------------------------------------------------------------[0m
+[32m[2025-06-20 12:41:14,129][svoice.solver][INFO] - Cross validation...[0m
+[32m[2025-06-20 12:42:16,948][svoice.solver][INFO] - Valid | Epoch 3 | 200/1004 | 3.9 it/sec | Loss 3.28038[0m
+[32m[2025-06-20 12:43:08,380][svoice.solver][INFO] - Valid | Epoch 3 | 400/1004 | 3.9 it/sec | Loss -0.00140[0m
+[32m[2025-06-20 12:43:59,839][svoice.solver][INFO] - Valid | Epoch 3 | 600/1004 | 3.9 it/sec | Loss -1.30861[0m
+[32m[2025-06-20 12:44:50,850][svoice.solver][INFO] - Valid | Epoch 3 | 800/1004 | 3.9 it/sec | Loss -2.53982[0m
+[32m[2025-06-20 12:45:41,431][svoice.solver][INFO] - Valid | Epoch 3 | 1000/1004 | 3.9 it/sec | Loss -3.10023[0m
+[32m[2025-06-20 12:45:42,885][svoice.solver][INFO] - [1mValid Summary | End of Epoch 3 | Time 2491.66s | Valid Loss -3.10377[0m
+[32m[2025-06-20 12:45:42,886][svoice.solver][INFO] - Learning rate adjusted: 0.00098[0m
+[32m[2025-06-20 12:45:42,886][svoice.solver][INFO] - [1mNew best valid loss -3.1038[0m
+[32m[2025-06-20 12:45:42,923][svoice.solver][INFO] - ----------------------------------------------------------------------[0m
+[32m[2025-06-20 12:45:42,924][svoice.solver][INFO] - [1mOverall Summary | Epoch 3 | Train 0.52053 | Valid -3.10377 | Best -3.10377[0m
+[32m[2025-06-20 12:45:43,142][svoice.solver][INFO] - ----------------------------------------------------------------------[0m
+[32m[2025-06-20 12:45:43,142][svoice.solver][INFO] - Training...[0m
+[32m[2025-06-20 12:53:25,696][svoice.solver][INFO] - Train | Epoch 4 | 584/2921 | 1.3 it/sec | Loss 0.31506[0m
+[32m[2025-06-20 13:02:40,400][svoice.solver][INFO] - Train | Epoch 4 | 1168/2921 | 1.2 it/sec | Loss 0.20859[0m
+[32m[2025-06-20 13:11:40,420][svoice.solver][INFO] - Train | Epoch 4 | 1752/2921 | 1.1 it/sec | Loss 0.05976[0m
+[32m[2025-06-20 13:20:32,913][svoice.solver][INFO] - Train | Epoch 4 | 2336/2921 | 1.1 it/sec | Loss 0.02490[0m
+[32m[2025-06-20 13:29:43,143][svoice.solver][INFO] - Train | Epoch 4 | 2920/2921 | 1.1 it/sec | Loss -0.06284[0m
+[32m[2025-06-20 13:29:45,076][svoice.solver][INFO] - [1mTrain Summary | End of Epoch 4 | Time 2641.93s | Train Loss -0.06472[0m
+[32m[2025-06-20 13:29:45,077][svoice.solver][INFO] - ----------------------------------------------------------------------[0m
+[32m[2025-06-20 13:29:45,077][svoice.solver][INFO] - Cross validation...[0m
+[32m[2025-06-20 13:30:41,778][svoice.solver][INFO] - Valid | Epoch 4 | 200/1004 | 4.0 it/sec | Loss 3.55106[0m
+[32m[2025-06-20 13:31:32,390][svoice.solver][INFO] - Valid | Epoch 4 | 400/1004 | 4.0 it/sec | Loss 0.08826[0m
+[32m[2025-06-20 13:32:23,888][svoice.solver][INFO] - Valid | Epoch 4 | 600/1004 | 3.9 it/sec | Loss -1.25304[0m
+[32m[2025-06-20 13:33:15,745][svoice.solver][INFO] - Valid | Epoch 4 | 800/1004 | 3.9 it/sec | Loss -2.56537[0m
+[32m[2025-06-20 13:34:06,061][svoice.solver][INFO] - Valid | Epoch 4 | 1000/1004 | 3.9 it/sec | Loss -3.12899[0m
+[32m[2025-06-20 13:34:07,614][svoice.solver][INFO] - [1mValid Summary | End of Epoch 4 | Time 2904.47s | Valid Loss -3.13571[0m
+[32m[2025-06-20 13:34:07,623][svoice.solver][INFO] - Learning rate adjusted: 0.00096[0m
+[32m[2025-06-20 13:34:07,625][svoice.solver][INFO] - [1mNew best valid loss -3.1357[0m
+[32m[2025-06-20 13:34:07,723][svoice.solver][INFO] - ----------------------------------------------------------------------[0m
+[32m[2025-06-20 13:34:07,724][svoice.solver][INFO] - [1mOverall Summary | Epoch 4 | Train -0.06472 | Valid -3.13571 | Best -3.13571[0m
+[32m[2025-06-20 13:34:07,977][svoice.solver][INFO] - ----------------------------------------------------------------------[0m
+[32m[2025-06-20 13:34:07,977][svoice.solver][INFO] - Training...[0m
+[32m[2025-06-20 13:40:33,443][svoice.solver][INFO] - Train | Epoch 5 | 584/2921 | 1.5 it/sec | Loss -0.06361[0m
+[32m[2025-06-20 13:46:47,082][svoice.solver][INFO] - Train | Epoch 5 | 1168/2921 | 1.5 it/sec | Loss -0.23548[0m
+[32m[2025-06-20 13:53:11,480][svoice.solver][INFO] - Train | Epoch 5 | 1752/2921 | 1.5 it/sec | Loss -0.40918[0m
+[32m[2025-06-20 13:59:46,913][svoice.solver][INFO] - Train | Epoch 5 | 2336/2921 | 1.5 it/sec | Loss -0.50864[0m
+[32m[2025-06-20 14:05:56,016][svoice.solver][INFO] - Train | Epoch 5 | 2920/2921 | 1.5 it/sec | Loss -0.42773[0m
+[32m[2025-06-20 14:05:57,041][svoice.solver][INFO] - [1mTrain Summary | End of Epoch 5 | Time 1909.06s | Train Loss -0.42942[0m
+[32m[2025-06-20 14:05:57,041][svoice.solver][INFO] - ----------------------------------------------------------------------[0m
+[32m[2025-06-20 14:05:57,042][svoice.solver][INFO] - Cross validation...[0m
+[32m[2025-06-20 14:06:57,539][svoice.solver][INFO] - Valid | Epoch 5 | 200/1004 | 4.1 it/sec | Loss 2.25185[0m
+[32m[2025-06-20 14:07:47,140][svoice.solver][INFO] - Valid | Epoch 5 | 400/1004 | 4.0 it/sec | Loss -1.22968[0m
+[32m[2025-06-20 14:08:36,813][svoice.solver][INFO] - Valid | Epoch 5 | 600/1004 | 4.0 it/sec | Loss -2.44976[0m
+[32m[2025-06-20 14:09:27,733][svoice.solver][INFO] - Valid | Epoch 5 | 800/1004 | 4.0 it/sec | Loss -3.68726[0m
+[32m[2025-06-20 14:10:18,100][svoice.solver][INFO] - Valid | Epoch 5 | 1000/1004 | 4.0 it/sec | Loss -4.22198[0m
+[32m[2025-06-20 14:10:19,516][svoice.solver][INFO] - [1mValid Summary | End of Epoch 5 | Time 2171.54s | Valid Loss -4.23285[0m
+[32m[2025-06-20 14:10:19,517][svoice.solver][INFO] - Learning rate adjusted: 0.00096[0m
+[32m[2025-06-20 14:10:19,518][svoice.solver][INFO] - [1mNew best valid loss -4.2328[0m
+[32m[2025-06-20 14:10:19,562][svoice.solver][INFO] - ----------------------------------------------------------------------[0m
+[32m[2025-06-20 14:10:19,562][svoice.solver][INFO] - Evaluating on the test set...[0m
+[32m[2025-06-20 14:11:22,662][svoice.evaluate][INFO] - Eval estimates | 232/1160 | 4.0 it/sec[0m
+[32m[2025-06-20 14:12:21,370][svoice.evaluate][INFO] - Eval estimates | 464/1160 | 4.0 it/sec[0m
+[32m[2025-06-20 14:13:20,175][svoice.evaluate][INFO] - Eval estimates | 696/1160 | 4.0 it/sec[0m
+[32m[2025-06-20 14:14:22,209][svoice.evaluate][INFO] - Eval estimates | 928/1160 | 3.9 it/sec[0m
+[32m[2025-06-20 14:15:21,525][svoice.evaluate][INFO] - Eval estimates | 1160/1160 | 3.9 it/sec[0m
+[32m[2025-06-20 14:15:21,526][svoice.evaluate][INFO] - Eval metrics | 232/1160 | 233000000.0 it/sec[0m
+[32m[2025-06-20 14:15:21,527][svoice.evaluate][INFO] - Eval metrics | 464/1160 | 411988.0 it/sec[0m
+[32m[2025-06-20 14:15:21,528][svoice.evaluate][INFO] - Eval metrics | 696/1160 | 325948.3 it/sec[0m
+[32m[2025-06-20 14:15:21,528][svoice.evaluate][INFO] - Eval metrics | 928/1160 | 434441.8 it/sec[0m
+[32m[2025-06-20 14:15:21,529][svoice.evaluate][INFO] - Eval metrics | 1160/1160 | 369973.2 it/sec[0m
+[32m[2025-06-20 14:15:22,010][svoice.evaluate][INFO] - [1mTest set performance: SISNRi=-3.49 PESQ=0.0, STOI=0.0.[0m
+[32m[2025-06-20 14:15:22,043][svoice.solver][INFO] - Separate and save samples...[0m
+[32m[2025-06-20 14:18:28,936][svoice.solver][INFO] - ----------------------------------------------------------------------[0m
+[32m[2025-06-20 14:18:28,937][svoice.solver][INFO] - [1mOverall Summary | Epoch 5 | Train -0.42942 | Valid -4.23285 | Best -4.23285 | Sisnr -3.49330 | Pesq 0.00000 | Stoi 0.00000[0m
