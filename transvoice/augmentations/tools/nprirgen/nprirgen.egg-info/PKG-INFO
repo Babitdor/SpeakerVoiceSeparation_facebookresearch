@@ -1,0 +1,7 @@
+Metadata-Version: 2.4
+Name: nprirgen
+Version: 0.0.0
+Summary: NumPy-based image method implementation for room impulse response generation
+Author: ty274
+Dynamic: author
+Dynamic: summary
