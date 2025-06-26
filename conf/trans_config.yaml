@@ -1,0 +1,150 @@
+defaults:
+  - _self_
+  - dset: debug
+# Dataset related
+sample_rate: 8000
+use_train_subset: false
+train_subset_size: 500 # default
+use_val_subset: False
+val_subset_size: 500
+segment: 4
+stride: 1 # in seconds, how much to stride between training examples
+pad: true # if training sample is too short, pad it
+cv_maxlen: 8
+validfull: 1 # use entire samples at valid
+
+# Logging and printing, and does not impact training
+num_prints: 5
+device: cuda
+num_workers: 2
+verbose: 0
+show: 0 # just show the model and its size and exit
+
+# Checkpointing, by default automatically load last checkpoint
+checkpoint: True
+continue_from:
+  "" # Only pass the name of the exp, like `exp_dset=wham`
+  # this arg is ignored for the naming of the exp!
+continue_best: false
+restart: False # Ignore existing checkpoints
+checkpoint_file: ${hydra:run.dir}/checkpoint.th
+history_file: ${hydra:run.dir}/history.json
+samples_dir: ${hydra:run.dir}/samples
+
+# Other stuff
+seed: 2036
+dummy: # use this if you want twice the same exp, with a name
+
+# Evaluation stuff
+pesq: false # compute pesq?
+eval_every: 10
+keep_last: 0
+
+# Optimization related
+optim: adam
+lr: 5e-4
+beta2: 0.999
+stft_loss: False
+stft_sc_factor: .5
+stft_mag_factor: .5
+epochs: 10
+batch_size: 1
+max_norm: 5
+input_normalize: False
+# learning rate scheduling
+lr_sched: step # can be either step or plateau
+step:
+  step_size: 2
+  gamma: 0.98
+plateau:
+  factor: 0.5
+  patience: 5
+
+logging:
+  tensorboard:
+    enable: true
+    log_dir: "runs" # Relative to your experiment directory
+    log_interval: 100 # Log every 100 batches
+
+# Models
+model: swave # either demucs or dwave
+swave:
+  N: 128
+  L: 8
+  H: 128
+  R: 6
+  C: 2
+  input_normalize: True
+  nheads: 8
+
+# Experiment launching, distributed
+ddp: false
+ddp_backend: nccl
+rendezvous_file: ./rendezvous
+
+# Internal config, don't set manually
+rank:
+world_size:
+
+# Hydra config
+hydra:
+  run:
+    dir: ./output_trn/exp_${hydra.job.override_dirname}
+  job:
+    config:
+      # configuration for the ${hydra.job.override_dirname} runtime variable
+      override_dirname:
+        kv_sep: "="
+        item_sep: ","
+        # Remove all paths, as the / in them would mess up things
+        # Remove params that would not impact the training itself
+        # Remove all slurm and submit params.
+        # This is ugly I know...
+        exclude_keys:
+          [
+            "hydra.job_logging.handles.file.filename",
+            "dset.train",
+            "dset.valid",
+            "dset.test",
+            "dset.mix_json",
+            "dset.mix_dir",
+            "num_prints",
+            "continue_from",
+            "device",
+            "num_workers",
+            "print_freq",
+            "restart",
+            "verbose",
+            "log",
+            "ddp",
+            "ddp_backend",
+            "rendezvous_file",
+            "rank",
+            "world_size",
+          ]
+  job_logging:
+    formatters:
+      colorlog:
+        class: colorlog.ColoredFormatter
+        format: "%(log_color)s[%(asctime)s][%(name)s][%(levelname)s] - %(message)s"
+    handlers:
+      file:
+        class: logging.FileHandler
+        mode: w
+        formatter: colorlog
+        filename: log_trn/trainer_${hydra.job.override_dirname}.log
+      console:
+        class: logging.StreamHandler
+        formatter: colorlog
+        stream: ext://sys.stderr
+
+  hydra_logging:
+    formatters:
+      colorlog:
+        class: colorlog.ColoredFormatter
+        format: "%(log_color)s[%(asctime)s][%(name)s][%(levelname)s] - %(message)s"
+    handlers:
+      console:
+        class: logging.StreamHandler
+        formatter: colorlog
+        stream: ext://sys.stderr
