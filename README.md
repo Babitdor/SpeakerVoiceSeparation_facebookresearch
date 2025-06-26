@@ -1,4 +1,4 @@
-# SVoice: Speech Separation Project
+# SVoice: Speech Separation
 
 ## Overview
 
