@@ -1,4 +1,4 @@
-# SVoice: Speech Separation
+# TranSVoice: Speech Separation
 
 ## Overview
 
