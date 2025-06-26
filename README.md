@@ -3,6 +3,7 @@
 ## Overview
 
 **SVoice** is a deep learning-based speech separation toolkit built with PyTorch and Hydra. It is designed for training, evaluating, and experimenting with source separation models (such as Conv-TasNet and Demucs variants) on datasets like WSJ0 and custom mixtures.
+This version includes a novel enhancement: the integration of Transformers within the Dual-Path architecture, replacing traditional Bi-LSTM blocks to better capture long-range temporal dependencies in speech.
 
 ---
 
@@ -10,6 +11,7 @@
 
 - **Flexible configuration** using [Hydra](https://hydra.cc/)
 - **Support for multiple models** (e.g., Conv-TasNet, Demucs, SVoice custom models)
+- **Transformer-based Dual-Path model support
 - **Training, validation, and evaluation** pipelines
 - **SI-SNR, PESQ, STOI metrics**
 - **Automatic checkpointing and logging**
@@ -25,7 +27,7 @@ svoice/
 ├── conf/                # Hydra configuration files (config.yaml, etc.)
 ├── dataset/             # Data preparation scripts and raw data folders
 ├── egs/                 # Example recipes and experiment scripts
-├── svoice/              # Core source code (models, solver, evaluation, utils)
+├── transvoice/              # Core source code (models, solver, evaluation, utils)
 ├── scripts/             # Additional scripts (e.g., make_dataset.py)
 ├── tools/               # External tools (e.g., sph2pipe)
 ├── outputs/             # Hydra output directory for logs, checkpoints, samples
