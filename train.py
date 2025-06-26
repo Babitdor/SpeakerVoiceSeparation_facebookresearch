@@ -7,15 +7,15 @@
 
 import json
 import logging
+from torch.utils.tensorboard import SummaryWriter
 import os
 import socket
 import subprocess as sp
 import sys
 import time
 
-from omegaconf import DictConfig, OmegaConf
 import hydra
-
+from torch.amp import GradScaler
 from svoice.executor import start_ddp_workers
 
 logger = logging.getLogger(__name__)
@@ -23,11 +23,14 @@ logger = logging.getLogger(__name__)
 
 def run(args):
     import torch
+    from transvoice import distrib
+    from transvoice.data.data import Trainset, Validset
+    from transvoice.models.Transwave import TranSWave
+    from transvoice.solver import Solver
 
-    from svoice import distrib
-    from svoice.data.data import Trainset, Validset
-    from svoice.models.swave import SWave
-    from svoice.solver import Solver
+    writer = None
+    if hasattr(args.logging, "tensorboard") and args.logging.tensorboard.enable:
+        writer = SummaryWriter(log_dir=args.logging.tensorboard.log_dir)
 
     logger.info("Running on host %s", socket.gethostname())
     distrib.init(args)
@@ -36,7 +39,7 @@ def run(args):
         kwargs = dict(args.swave)
         kwargs["sr"] = args.sample_rate
         kwargs["segment"] = args.segment
-        model = SWave(**kwargs)
+        model = TranSWave(**kwargs)
     else:
         logger.fatal("Invalid model name %s", args.model)
         os._exit(1)
@@ -66,7 +69,8 @@ def run(args):
         segment=args.segment,
         stride=args.stride,
         pad=args.pad,
-        subset=200,
+        subset=args.use_train_subset,
+        subset_size=args.train_subset_size,
     )
     tr_loader = distrib.loader(
         tr_dataset,
@@ -81,23 +85,38 @@ def run(args):
         segment=args.segment,
         stride=args.stride,
         pad=args.pad,
-        subset=200,
+        subset=args.use_val_subset,
+        subset_size=args.val_subset_size,
     )
     tt_dataset = Validset(
         args.dset.test,
         segment=args.segment,
         stride=args.stride,
         pad=args.pad,
-        subset=200,
+        subset=args.use_val_subset,
+        subset_size=args.val_subset_size,
     )
-    cv_loader = distrib.loader(cv_dataset, batch_size=1, num_workers=args.num_workers)
-    tt_loader = distrib.loader(tt_dataset, batch_size=1, num_workers=args.num_workers)
+    cv_loader = distrib.loader(
+        cv_dataset,
+        batch_size=args.batch_size,
+        num_workers=args.num_workers,
+    )
+    tt_loader = distrib.loader(
+        tt_dataset,
+        batch_size=args.batch_size,
+        num_workers=args.num_workers,
+    )
     data = {"tr_loader": tr_loader, "cv_loader": cv_loader, "tt_loader": tt_loader}
 
     # torch also initialize cuda seed if available
     torch.manual_seed(args.seed)
     if torch.cuda.is_available():
+        torch.backends.cudnn.benchmark = True
         model.cuda()
+    elif torch.backends.mps.is_available():
+        model.to("mps")
+    else:
+        model.cpu()
 
     # optimizer
     if args.optim == "adam":
@@ -108,8 +127,10 @@ def run(args):
         logger.fatal("Invalid optimizer %s", args.optim)
         os._exit(1)
 
+    scaler = GradScaler(device="cuda")
+
     # Construct Solver
-    solver = Solver(data, model, optimizer, args)
+    solver = Solver(data, model, optimizer, args, scaler=scaler, writer=writer)
     solver.train()
 
 
@@ -132,7 +153,7 @@ def _main(args):
         run(args)
 
 
-@hydra.main(config_path="conf", config_name="config.yaml")
+@hydra.main(config_path="conf", config_name="trans_config.yaml", version_base=None)
 def main(args):
     try:
         _main(args)
