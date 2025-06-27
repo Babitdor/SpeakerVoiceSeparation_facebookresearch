@@ -132,6 +132,13 @@ class Solver(object):
         gc.collect()
 
     def _reset(self):
+        torch.cuda.empty_cache()
+        torch.cuda.reset_peak_memory_stats()
+
+        # Reset CUDA kernel cache (PyTorch 1.10+)
+        if hasattr(torch.cuda, "emptyCache"):
+            torch.cuda.emptyCache()
+
         load_from = None
         # Reset
         if self.checkpoint and self.checkpoint.exists() and not self.restart:
@@ -167,17 +174,35 @@ class Solver(object):
 
     def _train_loop(self):
         # Optimizing the model
+        torch.backends.cudnn.benchmark = True  # Enable cuDNN auto-tuner
+        torch.backends.cudnn.deterministic = False
+
         if self.history:
             logger.info("Replaying metrics from previous run")
             for epoch, metrics in enumerate(self.history):
                 self._log_metrics(metrics, epoch)
-                info = " ".join(f"{k}={v:.5f}" for k, v in metrics.items())
-                logger.info(f"Epoch {epoch}: {info}")
+                start_epoch = len(self.history)
+        else:
+            start_epoch = 0
 
-        for epoch in range(self.current_epoch, self.epochs):
+        for epoch in range(start_epoch, self.epochs):
+
             self.current_epoch = epoch
-            self._train_epoch(epoch)
-            self._validate_epoch(epoch)
+            metrics = {}
+
+            # Train and validate
+            train_loss = self._train_epoch(epoch)
+            valid_loss = self._validate_epoch(epoch)
+
+            # Update metrics
+            metrics.update({"train": train_loss, "valid": valid_loss})
+            best_loss = min(pull_metric(self.history, "valid") + [valid_loss])
+            metrics.update({"best": best_loss})
+
+            # Save to history
+            self.history.append(metrics)
+            self._log_metrics(metrics, epoch)
+
             self._evaluate_if_needed(epoch)
             self._save_checkpoint()
             self._update_memory_state()
@@ -202,8 +227,7 @@ class Solver(object):
                 f"Time {train_time:.2f}s | Loss {train_loss:.5f}"
             )
         )
-        metrics = {"train": train_loss}
-        self._log_metrics(metrics, epoch)
+        return train_loss
         # if self.writer is not None:
         #     self.writer.add_scalar("Loss/train", train_loss, epoch)
 
@@ -225,9 +249,6 @@ class Solver(object):
             )
         )
 
-        # if self.writer is not None:
-        #     self.writer.add_scalar("Loss/Validation", valid_loss, epoch)
-
         # learning rate scheduling
         if self.sched:
             if self.args.lr_sched == "plateau":
@@ -248,15 +269,11 @@ class Solver(object):
 
         # Logging and saving Best loss model
         best_loss = min(pull_metric(self.history, "valid") + [valid_loss])
-        metrics = {"valid": valid_loss, "best": best_loss}
-        # Save the best model
         if valid_loss == best_loss or self.args.keep_last:
             logger.info(bold("New best valid loss %.4f"), valid_loss)
             self.best_state = copy_state(self.model.state_dict())
 
-        self._log_metrics(metrics, epoch)
-        self.history.append({**metrics, "train": metrics.get("train", 0)})
-
+        return valid_loss
         # evaluate and separate samples every 'eval_every' argument number of epochs
         # also evaluate on last epoch
 
