@@ -16,7 +16,7 @@ validfull: 1 # use entire samples at valid
 # Logging and printing, and does not impact training
 num_prints: 5
 device: cuda
-num_workers: 2
+num_workers: 4
 verbose: 0
 show: 0 # just show the model and its size and exit
 
@@ -50,7 +50,7 @@ stft_mag_factor: .5
 epochs: 10
 batch_size: 1
 max_norm: 5
-input_normalize: False
+input_normalize: True
 # learning rate scheduling
 lr_sched: step # can be either step or plateau
 step:
@@ -69,13 +69,13 @@ logging:
 # Models
 model: swave # either demucs or dwave
 swave:
-  N: 128
-  L: 8
-  H: 128
-  R: 6
-  C: 2
+  N: 64 # Reduce feature size to cut memory/computation
+  L: 4 # Fewer layers = faster training/inference
+  H: 64 # Smaller hidden size
+  R: 3 # Fewer repeats = less depth
+  C: 2 # Keep output channels the same (e.g. for 2-speaker separation)
   input_normalize: True
-  nheads: 8
+  nheads: 1 # Use a single attention head to reduce computation
 
 # Experiment launching, distributed
 ddp: false
@@ -89,7 +89,7 @@ world_size:
 # Hydra config
 hydra:
   run:
-    dir: ./output/exp_${hydra.job.override_dirname}
+    dir: ./outputs/exp_${hydra.job.override_dirname}
   job:
     config:
       # configuration for the ${hydra.job.override_dirname} runtime variable
@@ -132,7 +132,7 @@ hydra:
         class: logging.FileHandler
         mode: w
         formatter: colorlog
-        filename: log/trainer_${hydra.job.override_dirname}.log
+        filename: logs/trainer_${hydra.job.override_dirname}.log
       console:
         class: logging.StreamHandler
         formatter: colorlog
