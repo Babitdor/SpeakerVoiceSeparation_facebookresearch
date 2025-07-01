@@ -1,6 +1,7 @@
 import torch.nn as nn
 import torch.nn.functional as F
 from transvoice.models.components.MultiCat import GatedDualTransformerBlock
+import torch
 
 
 class DualPath(nn.Module):
@@ -32,16 +33,7 @@ class DualPath(nn.Module):
         self.InterTransformer = nn.ModuleList([])
         self.Intra_normalization = nn.ModuleList([])
         self.Inter_normalization = nn.ModuleList([])
-
-        # Fixed: Use correct attribute names
-        self.IntraTransformer = nn.ModuleList([])  # was intraTransformer
-        self.InterTransformer = nn.ModuleList([])  # was interTransformer
-        self.IntraTransformer_normalization = nn.ModuleList(
-            []
-        )  # was intra_normalization
-        self.IntraTransformer_normalization = nn.ModuleList(
-            []
-        )  # was inter_normalization
+        self.res_scale = nn.Parameter(torch.ones(1))
 
         # create the dual path pipeline
         for i in range(num_layers):
@@ -68,16 +60,12 @@ class DualPath(nn.Module):
                 )
             )
             if self.in_norm:
-                self.IntraTransformer_normalization.append(
-                    nn.GroupNorm(1, input_size, eps=1e-8)
-                )
-                self.IntraTransformer_normalization.append(
-                    nn.GroupNorm(1, input_size, eps=1e-8)
-                )
+                self.Intra_normalization.append(nn.GroupNorm(1, input_size, eps=1e-8))
+                self.Inter_normalization.append(nn.GroupNorm(1, input_size, eps=1e-8))
             else:
                 # used to disable normalization
-                self.IntraTransformer_normalization.append(ByPass())
-                self.IntraTransformer_normalization.append(ByPass())
+                self.Intra_normalization.append(ByPass())
+                self.Inter_normalization.append(ByPass())
 
         self.output = nn.Sequential(
             nn.PReLU(), nn.Conv2d(input_size, output_size * num_spk, 1)
@@ -93,19 +81,19 @@ class DualPath(nn.Module):
             intra_input = output.permute(0, 3, 2, 1).reshape(batch_size * d2, d1, -1)
             intra_output = self.IntraTransformer[i](intra_input)
             intra_output = intra_output.view(batch_size, d2, d1, -1).permute(0, 3, 2, 1)
-            intra_output = self.IntraTransformer_normalization[i](intra_output)
+            intra_output = self.Intra_normalization[i](intra_output)
 
             # Apply skip connection
-            output = output + intra_output
+            output = output + self.res_scale * intra_output
 
             # Process columns (inter-chunk processing)
             inter_input = output.permute(0, 2, 3, 1).reshape(batch_size * d1, d2, -1)
             inter_output = self.InterTransformer[i](inter_input)
             inter_output = inter_output.view(batch_size, d1, d2, -1).permute(0, 3, 1, 2)
-            inter_output = self.IntraTransformer_normalization[i](inter_output)
+            inter_output = self.Inter_normalization[i](inter_output)
 
             # Apply skip connection
-            output = output + inter_output
+            output = output + self.res_scale * inter_output
 
             # Generate output for this layer
             output_i = self.output(output)

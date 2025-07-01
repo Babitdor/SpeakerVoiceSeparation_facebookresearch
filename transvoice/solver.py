@@ -176,6 +176,7 @@ class Solver(object):
         # Optimizing the model
         torch.backends.cudnn.benchmark = True  # Enable cuDNN auto-tuner
         torch.backends.cudnn.deterministic = False
+        # torch.autograd.set_detect_anomaly(True)
 
         if self.history:
             logger.info("Replaying metrics from previous run")
@@ -228,8 +229,6 @@ class Solver(object):
             )
         )
         return train_loss
-        # if self.writer is not None:
-        #     self.writer.add_scalar("Loss/train", train_loss, epoch)
 
     def _validate_epoch(self, epoch):
         # Cross validation
@@ -274,9 +273,9 @@ class Solver(object):
             self.best_state = copy_state(self.model.state_dict())
 
         return valid_loss
-        # evaluate and separate samples every 'eval_every' argument number of epochs
-        # also evaluate on last epoch
 
+    # evaluate and separate samples every 'eval_every' argument number of epochs
+    # also evaluate on last epoch
     def _evaluate_if_needed(self, epoch):
         if (epoch + 1) % self.eval_every == 0 or epoch == self.epochs - 1:
             # Evaluate on the testset
@@ -290,18 +289,11 @@ class Solver(object):
             metrics = {"sisnr": sisnr, "pesq": pesq, "stoi": stoi}
             self._log_metrics(metrics, epoch)
             self.history[-1].update(metrics)
-            # info = " | ".join(f"{k.capitalize()} {v:.5f}" for k, v in metrics.items())
-            # logger.info("-" * 70)
-            # logger.info(bold(f"Overall Summary | Epoch {epoch + 1} | {info}"))
 
             # separate some samples
             logger.info("Separate and save samples...")
             separate(self.args, self.model, self.samples_dir)
             self._cleanup()
-
-        # info = " | ".join(f"{k.capitalize()} {v:.5f}" for k, v in metrics.items())
-        # logger.info("-" * 70)
-        # logger.info(bold(f"Overall Summary | Epoch {epoch + 1} | {info}"))
 
     def _save_checkpoint(self):
         """Save checkpoint if needed"""
@@ -351,7 +343,9 @@ class Solver(object):
 
                 # Forward pass with memory management
                 with torch.amp.autocast(
-                    device_type="cuda", enabled=self.scaler is not None
+                    device_type="cuda",
+                    enabled=False,
+                    # device_type="cuda", enabled=self.scaler is not None
                 ), torch.set_grad_enabled(not cross_valid):
 
                     estimate_source = self.dmodel(mixture)
@@ -360,9 +354,15 @@ class Solver(object):
 
                     loss = self._compute_loss(estimate_source, sources, lengths)
 
+                    # if torch.isnan(loss).any():
+                    #     print("NaN detected in loss!")
+                    #     # Reduce learning rate or skip update
+                    #     self.optimizer.param_groups[0]["lr"] *= 0.5
+                    #     continue
+
                 # Backward pass if training
                 if not cross_valid:
-                    self._optimize_step(loss)
+                    self._optimize_step(loss, self.model)
 
                 # Update progress and clean up
                 total_loss += loss.item()
@@ -388,9 +388,13 @@ class Solver(object):
 
         return loss / len(estimate_source)
 
-    def _optimize_step(self, loss):
+    def _optimize_step(self, loss, model):
         """Perform optimization step with memory management"""
         self.optimizer.zero_grad()  # More memory efficient
         loss.backward()
         torch.nn.utils.clip_grad_norm_(self.model.parameters(), self.max_norm)
+        # grad_norms = [
+        #     p.grad.norm().item() for p in model.parameters() if p.grad is not None
+        # ]
+        # print(f"Mean gradient norm: {sum(grad_norms)/len(grad_norms):.3e}")
         self.optimizer.step()

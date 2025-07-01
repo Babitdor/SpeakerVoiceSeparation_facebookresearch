@@ -10,7 +10,7 @@ class GatedDualTransformerBlock(nn.Module):
         input_size,
         hidden_size,
         dropout=0.1,
-        nheads=4,
+        nheads=8,
         num_layers=2,
         segment_size=100,
         re_encode_pos=True,
@@ -32,7 +32,6 @@ class GatedDualTransformerBlock(nn.Module):
             dropout=self.dropout,
             num_heads=self.nheads,
             num_layers=self.num_layers,
-            segment_size=self.segment_size,
             positional_encoding_type="relative" if re_encode_pos else "absolute",
             max_len=512,
         )
